@@ -24,17 +24,21 @@ def part_one() -> int:
         if index <= 25:
             continue
         lookback = data[index-25:index]
-        print(data)
-        print(lookback)
         if not valid_number(lookback, val):
             return val, lookback
 
 
-def part_two(target_number):
+def part_two(target_number) -> int:
     data = load_data()
-
+    data_len = len(data)
+    for index in range(data_len):
+        for index_2 in range(index, data_len):
+            window = data[index:index_2]
+            if sum(window) == target_number:
+                print(window, sum(window))
+                return(sum([min(window), max(window)]))
 
 
 if __name__ == '__main__':
-    print(part_one())
-
+    # print(part_one())
+    print(part_two(1492208709))
