@@ -22,7 +22,7 @@ class Seat:
     @classmethod
     def populate_all_neighbors(cls):
         for seat in cls.xlist:
-            seat.populate_neighbors()
+            seat.new_populate_neighbors()
 
     @classmethod
     def update_seats(cls):
@@ -63,6 +63,31 @@ class Seat:
                     neighbor = row_group.get(column)
                     if neighbor:
                         neighbors.append(neighbor)
+        self.neighbors = neighbors
+
+    def new_populate_neighbors(self):
+        neighbors = []
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if i == j == 0:
+                    continue
+                found = False
+                row = self.row
+                column = self.column
+                while not found:
+                    row +=  i
+                    column +=  j
+                    row_group = Seat.grid.get(row)
+                    if row_group:
+                        neighbor = row_group.get(column)
+                        if neighbor:
+                            if neighbor.status != ".":
+                                neighbors.append(neighbor)
+                                found = True
+                        else:
+                            found = True
+                    else:
+                        found = True
         self.neighbors = neighbors
 
     def determine_next_state(self):
